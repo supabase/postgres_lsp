@@ -19,6 +19,7 @@ pg_query_proto_parser.workspace = true
 
 [dev-dependencies]
 insta = "1.31.0"
+proptest = "1.0.0"
 
 [lib]
 doctest = false

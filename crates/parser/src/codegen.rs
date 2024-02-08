@@ -5,6 +5,7 @@ parser_codegen!();
 #[cfg(test)]
 mod tests {
     use log::debug;
+    use proptest::prelude::*;
 
     use crate::codegen::{get_nodes, SyntaxKind, TokenProperty};
 
@@ -72,25 +73,40 @@ mod tests {
         assert_eq!(node_graph[node_index].properties.len(), expected.len());
     }
 
-    #[test]
-    fn test_simple_select() {
-        test_get_node_properties(
-            "select 1;",
-            SyntaxKind::SelectStmt,
-            vec![TokenProperty::from(SyntaxKind::Select)],
-        )
+    proptest! {
+        #[test]
+        fn test_simple_select(n in 0..100i32) {
+            test_get_node_properties(&format!("select {};", n), SyntaxKind::SelectStmt, vec![TokenProperty::from(SyntaxKind::Select)])
+        }
     }
 
-    #[test]
-    fn test_select_with_from() {
-        test_get_node_properties(
-            "select 1 from contact;",
-            SyntaxKind::SelectStmt,
-            vec![
-                TokenProperty::from(SyntaxKind::Select),
-                TokenProperty::from(SyntaxKind::From),
-            ],
-        )
+    proptest! {
+        #[test]
+        fn test_select_with_from(n in 0..100i32, table_name in "ab?c?d?") {
+            test_get_node_properties(
+                &format!("select {} from {};", n, table_name),
+                SyntaxKind::SelectStmt,
+                vec![
+                    TokenProperty::from(SyntaxKind::Select),
+                    TokenProperty::from(SyntaxKind::From),
+                ],
+            )
+        }
+    }
+
+    proptest! {
+        #[test]
+        fn test_select_with_where(table_name in "ab?c?d?", condition in "<|>|=|<>|!=", n in 0..100i32) {
+            test_get_node_properties(
+                &format!("select * from {} where id {} {};", table_name, condition, n),
+                SyntaxKind::SelectStmt,
+                vec![
+                    TokenProperty::from(SyntaxKind::Select),
+                    TokenProperty::from(SyntaxKind::From),
+                    TokenProperty::from(SyntaxKind::Where),
+                ],
+            )
+        }
     }
 
     #[test]
