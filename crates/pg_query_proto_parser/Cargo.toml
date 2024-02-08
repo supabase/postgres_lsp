@@ -1,9 +1,8 @@
 [package]
 name = "pg_query_proto_parser"
 version = "0.0.0"
-edition = "2021"
 
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+edition.workspace = true
 
 [dependencies]
 protobuf-parse = "3.3.0"

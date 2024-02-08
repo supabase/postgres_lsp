@@ -1,0 +1,13 @@
+[package]
+name = "schema_cache"
+version = "0.0.0"
+
+edition.workspace = true
+
+[dependencies]
+
+[dev-dependencies]
+
+[lib]
+
+[features]

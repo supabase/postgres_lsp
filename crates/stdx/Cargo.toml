@@ -1,0 +1,13 @@
+[package]
+name = "stdx"
+version = "0.0.0"
+
+edition.workspace = true
+
+[lib]
+doctest = false
+
+[dependencies]
+crossbeam-channel = "0.5.5"
+jod-thread = "0.1.2"
+libc.workspace = true

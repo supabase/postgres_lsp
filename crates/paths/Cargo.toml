@@ -1,0 +1,10 @@
+[package]
+name = "paths"
+version = "0.0.0"
+
+edition.workspace = true
+
+[lib]
+doctest = false
+
+[dependencies]

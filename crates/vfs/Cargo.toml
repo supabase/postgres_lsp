@@ -1,0 +1,15 @@
+[package]
+name = "vfs"
+version = "0.0.0"
+
+edition.workspace = true
+
+[dependencies]
+fst = "0.4.7"
+
+nohash-hasher.workspace = true
+indexmap.workspace = true
+paths.workspace = true
+rustc-hash.workspace = true
+
+
