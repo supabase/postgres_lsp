@@ -1,0 +1,18 @@
+[package]
+name = "service"
+version = "0.0.0"
+edition = "2021"
+
+[dependencies]
+schema_cache.workspace = true
+fs.workspace = true
+text_size.workspace = true
+parser.workspace = true
+
+tree-sitter.workspace = true
+tree_sitter_sql.workspace = true
+serde.workspace = true
+dashmap.workspace = true
+
+[lib]
+doctest = false

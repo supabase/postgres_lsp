@@ -9,6 +9,13 @@ resolver = "2"
 rust-version = "1.71"
 
 [workspace.dependencies]
+stdx = { path = "./crates/stdx", version = "0.0.0" }
+lsp = { path = "./crates/lsp", version = "0.0.0" }
+cli = { path = "./crates/cli", version = "0.0.0" }
+playground = { path = "./crates/playground", version = "0.0.0" }
+fs = { path = "./crates/fs", version = "0.0.0" }
+text_size = { path = "./crates/text_size", version = "0.0.0" }
+service = { path = "./crates/service", version = "0.0.0" }
 tree_sitter_sql = { path = "./crates/tree_sitter_sql", version = "0.0.0" }
 schema_cache = { path = "./crates/schema_cache", version = "0.0.0" }
 parser = { path = "./crates/parser", version = "0.0.0" }
@@ -16,6 +23,12 @@ codegen = { path = "./crates/codegen", version = "0.0.0" }
 sourcegen = { path = "./crates/sourcegen", version = "0.0.0" }
 pg_query_proto_parser = { path = "./crates/pg_query_proto_parser", version = "0.0.0" }
 triomphe = { version = "0.1.8", default-features = false, features = ["std"] }
+
+serde = "1.0.197"
+dashmap = "5.5.3"
+tree-sitter = "0.20.10"
+libc = "0.2.150"
+crossbeam-channel = "0.5.12"
 
 [profile.dev.package]
 insta.opt-level = 3

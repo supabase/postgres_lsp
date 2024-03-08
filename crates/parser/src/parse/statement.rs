@@ -63,7 +63,7 @@ pub fn statement(parser: &mut Parser, kind: SyntaxKind) {
     assert_eq!(parser.pos, token_range.end);
 }
 
-fn collect_statement_token_range(parser: &mut Parser, kind: SyntaxKind) -> Range<usize> {
+pub fn collect_statement_token_range(parser: &mut Parser, kind: SyntaxKind) -> Range<usize> {
     parser.open_buffer();
 
     // advance with all start tokens of statement

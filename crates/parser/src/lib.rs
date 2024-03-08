@@ -28,6 +28,9 @@ mod syntax_node;
 
 use lexer::lex;
 use parse::source::source;
+use parse::statement::collect_statement_token_range;
+use parse::statement_start::is_at_stmt_start;
+use text_size::TextRange;
 
 pub use crate::codegen::SyntaxKind;
 pub use crate::parser::{Parse, Parser};
@@ -39,4 +42,80 @@ pub fn parse_source(text: &str) -> Parse {
     let mut p = Parser::new(lex(text));
     source(&mut p);
     p.finish()
+}
+
+pub fn get_statements(text: &str) -> Vec<(TextRange, String)> {
+    let mut parser = Parser::new(lex(text));
+    parser.start_node(SyntaxKind::SourceFile);
+
+    let mut ranges = vec![];
+
+    while !parser.eof() {
+        match is_at_stmt_start(&mut parser) {
+            Some(stmt) => {
+                let range = collect_statement_token_range(&mut parser, stmt);
+
+                let from = parser.tokens.get(range.start);
+                let to = parser.tokens.get(range.end - 1);
+                // get text range from token range
+                let start = from.unwrap().span.start();
+                let end = to.unwrap().span.end();
+                ranges.push((
+                    TextRange::new(
+                        text_size::TextSize::from(u32::from(start)),
+                        text_size::TextSize::from(u32::from(end)),
+                    ),
+                    text.get(start.into()..end.into()).unwrap().to_string(),
+                ));
+
+                while parser.pos < range.end {
+                    parser.advance();
+                }
+            }
+            None => {
+                parser.advance();
+            }
+        }
+    }
+
+    parser.finish_node();
+
+    ranges
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    fn init() {
+        let _ = env_logger::builder().is_test(true).try_init();
+    }
+
+    #[test]
+    fn test_get_statements() {
+        init();
+
+        let input = "select 1;   \n select 2; \n select 3;";
+
+        let ranges = get_statements(input);
+
+        println!("{:?}", ranges);
+
+        assert_eq!(ranges.len(), 3);
+
+        assert_eq!(
+            input.get(ranges[0].0.start().into()..ranges[0].0.end().into()),
+            Some("select 1;")
+        );
+
+        assert_eq!(
+            input.get(ranges[1].0.start().into()..ranges[1].0.end().into()),
+            Some("select 2;")
+        );
+
+        assert_eq!(
+            input.get(ranges[2].0.start().into()..ranges[2].0.end().into()),
+            Some("select 3;")
+        );
+    }
 }

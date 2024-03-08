@@ -1,0 +1,9 @@
+[package]
+name = "cli"
+version = "0.0.0"
+edition = "2021"
+
+[dependencies]
+
+[lib]
+doctest = false

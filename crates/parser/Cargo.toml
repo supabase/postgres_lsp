@@ -16,6 +16,7 @@ log = { version = "0.4.20" }
 
 codegen.workspace = true
 pg_query_proto_parser.workspace = true
+text_size.workspace = true
 
 [dev-dependencies]
 insta = "1.31.0"
