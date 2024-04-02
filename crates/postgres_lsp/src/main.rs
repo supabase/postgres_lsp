@@ -13,6 +13,15 @@ use tower_lsp::{Client, LanguageServer, LspService, Server};
 use crate::semantic_token::semantic_token_from_syntax_kind;
 use crate::utils::offset_to_position;
 
+// TODO:
+// - add like in rust analyzer with threads etc
+// - they have a snyc mut to schedule on current thread and we will use that for document changes
+// - we will also need to schedule our own tasks eg after doc change check if syntax is valid -->
+// kick off analysis
+//
+// rust analyzer uses vfs to track file changes and then takes them in the main loop. we wont neeed
+// that
+
 #[derive(Debug)]
 struct Backend {
     client: Client,

@@ -1,0 +1,14 @@
+[package]
+name = "playground"
+version = "0.0.0"
+edition = "2021"
+
+[dependencies]
+rayon = "1.8.1"
+dashmap = "5.5.3"
+tree-sitter = "0.20.10"
+
+schema_cache.workspace = true
+
+[lib]
+doctest = false

@@ -9,7 +9,7 @@ build = "build.rs"
 cc="*"
 
 [dependencies]
-tree-sitter = "0.20.10"
+tree-sitter.workspace = true
 
 [lib]
 doctest = false
